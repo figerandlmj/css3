@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+1.兼容<br/>
+	-webkit   chrome和safari<br/>
+	-moz      firefox<br/>
+	-ms       IE<br/>
+	-o        opera<br/>
+
+2.选择器<br/>
+::before和::after这两个主要用来给元素的前面或后面插入内容，这两个常和"content"配合使用，使用的场景最多的就是清除浮动。
+<br/>
+.clearfix::before,
+.clearfix::after {
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+.clearfix:after {clear: both;}
+.clearfix {zoom: 1;}
+<br/>
+<style>
+.box h3{
+  text-align:center;
+  position:relative;
+  top:80px;
+}
+.box {
+  width:70%;
+  height:200px;
+  background:#FFF;
+  margin:40px auto;
+}
+
+.effect{
+  position:relative;       
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	   -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+			box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+.effect::before, .effect::after{
+    content:"";
+	position:absolute; 
+	z-index:-1;
+	-webkit-box-shadow:0 0 20px rgba(0,0,0,0.8);
+	-moz-box-shadow:0 0 20px rgba(0,0,0,0.8);
+	box-shadow:0 0 20px rgba(0,0,0,0.8);
+	top:50%;
+	bottom:0;
+	left:10px;
+	right:10px;
+	-moz-border-radius:100px / 10px;
+	border-radius:100px / 10px;
+}
+</style>
+<div class="box effect">
+  <h3>Shadow Effect </h3>
+</div>
+“:read-write”选择器刚好与“:read-only”选择器相反，主要用来指定当元素处于非只读状态时的样式。
+<br/>
+input[type="text"]:-moz-read-write{
+  border-color: #f36;
+}
+input[type="text"]:read-write{
+  border-color: #f36;
+}
+<br/>
+“:read-only”伪类选择器用来指定处于只读状态元素的样式。简单点理解就是，元素中设置了“readonly=’readonly’”
+<br/>
+input[type="text"]:-moz-read-only{
+  border-color: #ccc;
+}
+input[type="text"]:read-only{
+  border-color: #ccc;
+}
+<br/>
+“::selection”伪元素是用来匹配突出显示的文本(用鼠标选择文本时的文本)。浏览器默认情况下，用鼠标选择网页文本是以“深蓝的背景，白色的字体”显示的
+<br/>
+::-moz-selection {
+  background: red;
+  color: green;
+}
+::selection {
+  background: red;
+  color: green;
+}
+<br/>
+在表单元素中，单选按钮和复选按钮都具有选中和未选中状态。（大家都知道，要覆写这两个按钮默认样式比较困难）。在CSS3中，我们可以通过状态选择器“:checked”配合其他标签实现自定义样式。而“:checked”表示的是选中状态。<br/>
+<style>
+	form {
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 300px;
+  margin: 30px auto;
+}
+.wrapper1 {
+  margin-bottom: 10px;
+}
+.box1 {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  position: relative;
+  background: orange;
+  vertical-align: middle;
+  border-radius: 100%;
+}
+.box1 input {
+  opacity: 0;
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height:100%;
+  z-index:100;/*使input按钮在span的上一层，不加点击区域会出现不灵敏*/
+}
+
+.box1 span { 
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  position: absolute;
+  background: #fff;
+  top: 50%;
+  left:50%;
+  margin: -5px 0  0 -5px;
+  z-index:1;
+}
+
+input[type="radio"] + span {
+  opacity: 0;
+
+}
+input[type="radio"]:checked + span {
+  opacity: 1;
+}
+</style>
+<form action="#">
+  <div class="wrapper1">
+    <div class="box1">
+      <input type="radio" checked="checked"  id="boy" name="1" /><span></span>
+    </div>
+    <label for="boy">男</label>
+  </div>
+  
+  <div class="wrapper1">
+    <div class="box1">
+      <input type="radio"  id="girl" name="1"  /><span></span>
+    </div>
+    <label for="girl">女</label>
+  </div>
+</form> 
+<style type="text/css">
+	form {
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: 300px;
+  margin: 30px auto;
+}
+
+.wrapper2 {
+  margin-bottom: 10px;
+}
+
+.box2 {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  position: relative;
+  border: 2px solid orange;
+  vertical-align: middle;
+}
+
+.box2 input {
+  opacity: 0;
+  position: absolute;
+  top:0;
+  left:0;
+  z-index:100;/*使input按钮在span的上一层，不加点击区域会出现不灵敏*/
+}
+
+.box2 span {
+  position: absolute;
+  top: -10px;
+  right: 3px;
+  font-size: 30px;
+  font-weight: bold;
+  font-family: Arial;
+  -webkit-transform: rotate(30deg);
+  transform: rotate(30deg);
+  color: orange;
+}
+
+input[type="checkbox"] + span {
+  opacity: 0;
+   z-index:1;
+}
+
+input[type="checkbox"]:checked + span {
+  opacity: 1;
+}
+</style>
+<form action="#">
+  <div class="wrapper2">
+    <div class="box2">
+      <input type="checkbox" checked="checked" id="usename" /><span>√</span>
+    </div>
+    <lable for="usename">我是选中状态</lable>
+  </div>
+  
+  <div class="wrapper2">
+    <div class="box2">
+      <input type="checkbox"  id="usepwd" /><span>√</span>
+    </div>
+    <label for="usepwd">我是未选中状态</label>
+  </div>
+</form> 
+“:disabled”选择器刚好与“:enabled”选择器相反，用来选择不可用表单元素。要正常使用“:disabled”选择器，需要在表单元素的HTML中设置“disabled”属性。<br/>
+input[type="text"]:disabled {
+  background: rgba(0,0,0,.15);
+  border: 1px solid rgba(0,0,0,.15);
+  color: rgba(0,0,0,.15);
+}<br/>
+在Web的表单中，有些表单元素有可用（“:enabled”）和不可用（“:disabled”）状态，比如输入框，密码框，复选框等。在默认情况之下，这些表单元素都处在可用状态。那么我们可以通过伪选择器“:enabled”对这些表单元素设置样式<br/>
+input[type="text"]:enabled {
+  background: #ccc;
+  border: 2px solid red;
+}<br/>
+“:only-of-type”选择器用来选择一个元素是它的父元素的唯一一个相同类型的子元素。这样说或许不太好理解，换一种说法。“:only-of-type”是表示一个元素他有很多个子元素，而其中只有一种类型的子元素是唯一的，使用“:only-of-type”选择器就可以选中这个元素中的唯一一个类型子元素。<br/>
+.wrapper > div:only-of-type {
+  background: orange;
+}<br/>
+
+“:only-child”选择器选择的是父元素中只有一个子元素，而且只有唯一的一个子元素。也就是说，匹配的元素的父元素中仅有一个子元素，而且是一个唯一的子元素。<br/>
+.post p:only-child {
+  background: orange;
+}<br/>
+
+“:nth-last-of-type(n)”选择器和“:nth-of-type(n)”选择器是一样的，选择父元素中指定的某种子元素类型，但它的起始方向是从最后一个子元素开始，而且它的使用方法类似于上节中介绍的“:nth-last-child(n)”选择器一样。<br/>
+.wrapper > div:nth-last-of-type(5){
+  background: orange;
+}<br/>
+
+“:last-of-type”选择器和“:first-of-type”选择器功能是一样的，不同的是他选择是父元素下的某个类型的最后一个子元素。<br/>
+ .wrapper > p:last-of-type{
+  background: orange;
+}<br/>
+“:nth-of-type(n)”选择器和“:nth-child(n)”选择器非常类似，不同的是它只计算父元素中指定的某种类型的子元素。当某个元素中的子元素不单单是同一种类型的子元素时，使用“:nth-of-type(n)”选择器来定位于父元素中某种类型的子元素是非常方便和有用的。在“:nth-of-type(n)”选择器中的“n”和“:nth-child(n)”选择器中的“n”参数也一样，可以是具体的整数，也可以是表达式，还可以是关键词。<br/>
+.wrapper > p:nth-of-type(2n){
+  background: orange;
+}<br/>
+
+“:first-of-type”选择器类似于“:first-child”选择器，不同之处就是指定了元素的类型,其主要用来定位一个父元素下的某个类型的第一个子元素。<br/>
+.wrapper > p:first-of-type {
+  background: orange;
+}<br/>
+
+“:nth-last-child(n)”选择器和前面的“:nth-child(n)”选择器非常的相似，只是这里多了一个“last”，所起的作用和“:nth-child(n)”选择器有所区别，从某父元素的最后一个子元素开始计算，来选择特定的元素。<br/>
+选择列表中倒数第五个列表项，将其背景设置为橙色。
+ol > li:nth-last-child(5){
+  background: orange;
+}<br/>
+“:nth-child(n)”选择器用来定位某个父元素的一个或多个特定的子元素。其中“n”是其参数，而且可以是整数值(1,2,3,4)，也可以是表达式(2n+1、-n+5)和关键词(odd、even)，但参数n的起始值始终是1，而不是0。也就是说，参数n的值为0时，选择器将选择不到任何匹配的元素。
+ol > li:nth-child(2n+1){
+  background: green;
+}
+ol > li:nth-child(2n){
+  background: orange;
+}
+经验与技巧:当“:nth-child(n)”选择器中的n为一个表达式时，其中n是从0开始计算，当表达式的值为0或小于0的时候，不选择任何匹配的元素<br/>
+
+“:last-child”选择器与“:first-child”选择器作用类似，不同的是“:last-child”选择器选择的是元素的最后一个子元素。例如，需要改变的是列表中的最后一个“li”的背景色，就可以使用这个选择器，
+
+ul>li:last-child{background:blue;}<br/>
+<style>
+	ul > li:first-child {
+ color: red;
+}
+</style>
+<ul>
+  <li><a href="##">Link1</a></li>
+  <li><a href="##">Link2</a></li>
+  <li><a href="##">Link3</a></li>
+  <li><a href="##">Link4</a></li>
+  <li><a href="##">Link5</a></li>
+</ul>
+“:first-child”选择器表示的是选择父元素的第一个子元素的元素E。简单点理解就是选择元素中的第一个子元素，记住是子元素，而不是后代元素<br/>
+<style type="text/css">
+	.menuSection{
+	  display: none;
+	}
+	:target{/*这里的:target就是指id="brand"的div对象*/
+	  display:block;
+	}
+</style>
+
+<h2><a href="#brand">Brand</a></h2>
+<div class="menuSection" id="brand">
+    content for Brand
+</div>
+:target选择器称为目标选择器，用来匹配文档(页面)的url的某个标志符的目标元素。我们先来上个例子，然后再做分析<br/>
+:empty选择器表示的就是空。用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格<br/>
+p{
+ background: orange;
+ min-height: 30px;
+}
+p:empty {
+  display: none;
+}​<br/>
+<p>我是一个段落</p>
+<p> </p>
+<p></p>​
+:not选择器称为否定选择器，和jQuery中的:not选择器一模一样，可以选择除某个元素之外的所有元素。就拿form元素来说，比如说你想给表单中除submit按钮之外的input元素添加红色边框，CSS代码可以写成：
+<br/>
+form {
+  width: 200px;
+  margin: 20px auto;
+}
+div {
+  margin-bottom: 20px;
+}
+<!-- 结构性伪类选择器 -->
+input:not([type="submit"]){
+  border:1px solid red;
+}<br/>
+:root选择器，从字面上我们就可以很清楚的理解是根选择器，他的意思就是匹配元素E所在文档的根元素。在HTML文档中，根元素始终是HTML<br/>
+:root{background:orange}
+==>
+html {background:orange;}<br/>
+<style>
+	/* ^ 表示以什么开头*/
+    a[class^=column]{
+        background:red;
+    }
+	/* $ 表示以什么结尾*/
+    a[href$=doc]{
+        background:green;
+    }
+    /* * 表示包含 */
+    a[title*=box]{
+        background:blue;
+    }
+</style>
+<a href="##" class="columnNews">我的背景想变成红色</a>
+<a href="##" class="columnVideo">我的背景想变成红色</a>
+<a href="##" class="columnAboutUs">我的背景想变成红色</a><br/>
+<a href="1.doc">我的背景想变成绿色</a>
+<a href="2.doc">我的背景想变成绿色</a><br/>
+<a href="##" title="this is a box">我的背景想变成蓝色</a>
+<a href="##" title="box1">我的背景想变成蓝色</a>
+<a href="##" title="there is two boxs">我的背景想变成蓝色</a><br/>
+3.圆角效果<br/>
+<style type="text/css">
+/* 实心圆 */
+div.circle{
+    height:100px;/*与width设置一致*/
+    width:100px;
+    background:#9da;
+    border-radius:50px;/*四个圆角值都设置为宽度或高度值的一半*/
+}
+/* 实心上半圆*/   
+div.top-semi-circle{ 
+    height:50px;
+    width:100px;
+    background:#9da;
+    border-radius: 50px 50px 0px 0px;
+}
+/* 实心右半圆*/   
+div.right-semi-circle{ 
+    height:100px;
+    width:50px;
+    background:#9da;
+    border-radius: 0px 50px 50px 0px;
+}
+/* 实心下半圆*/   
+div.bottom-semi-circle{ 
+    height:50px;
+    width:100px;
+    background:#9da;
+    border-radius: 0px 0px 50px 50px;
+}
+/* 实心左半圆*/   
+div.left-semi-circle{ 
+    height:100px;
+    width:50px;
+    background:#9da;
+    border-radius: 50px 0px 0px 50px;
+}
+   
+</style>
+<div class="circle">
+</div>
+<br/>
+<div class="top-semi-circle">
+</div>
+<br/>
+<div class="right-semi-circle">
+</div>
+<br/>
+<div class="bottom-semi-circle">
+</div>
+<br/>
+<div class="left-semi-circle">
+</div>
+4.块阴影与文字阴影<br/>
+box-shadow:x轴偏移量 y轴偏移量 [阴影模糊半径] [阴影扩展半径] [阴影颜色] [投影方式]<br/>
+<style>
+.boxshadow-outset{
+    width:100px;
+	height:100px;
+    box-shadow:4px 4px 6px #666; 
+}
+.boxshadow-outset2{
+    width:100px;
+    height:100px;
+    box-shadow:-2px 2px 6px #666,2px -2px 6px #666; 
+}
+.boxshadow-inset{
+    width:100px;
+    height:100px;
+    box-shadow:4px 4px 6px #666,4px 4px 6px #666 inset; 
+}
+.boxshadow-multi{
+    width:100px;
+    height:100px;
+    box-shadow:4px 2px 6px #f00, -4px -2px 6px #000, 0px 0px 12px 5px #33CC00 inset;
+}
+
+</style>
+<h2>外阴影</h2>
+<div class="boxshadow-outset">
+</div>
+<br />
+<h2>外阴影</h2>
+<div class="boxshadow-outset2">
+</div>
+<br />
+<h2>内阴影</h2>
+<div class="boxshadow-inset">
+</div>
+<br />
+<h2>多阴影</h2>
+<div class="boxshadow-multi">
+</div>
+5.色彩<br/>
+<style type="text/css">
+p.rgba{
+    font-size:42px;
+    text-align:center;
+    font-weight:bold;
+    background:rgba(0,0,0,0.5);
+} 
+</style>
+<p class="rgba">背景半透明的？</p>
+6.渐变效果<br/>
+linear/radial-gradient(to bottom,#fff,#999)<br/>
+渐变类型线性和径向    渐变方向  颜色起始点和结束点<br/>
+to top      从下向上        0deg
+to right    从左向右        90deg
+to bottom   从上向下        180deg
+to left     从右向左        270deg
+to top left 右下角到左上角
+to top right 左下角到右上角
+<style type="text/css">
+
+p.gradient{
+  width: 400px;
+  height: 150px;
+  line-height: 150px;
+  text-align:center;
+  color: #000;
+  font-size:24px;
+  background-image:linear-gradient(to top left, red, blue);
+} 
+</style>
+<p class="gradient">右下角向左上角的线性渐变背景</p>
+7.个性化字体<br/>
+word-wrap也可以用来设置文本行为，当前行超过指定容器的边界时是否断开转行<br/>
+word-wrap:normal/break-word<br/>
+break-word设置在长单词或 URL地址内部进行换行，此属性不常用，用浏览器默认值即可<br/>
+<style type="text/css">
+.test_demo{
+    text-overflow:ellipsis; 
+    overflow:hidden; 
+    white-space:nowrap; 
+    width:200px; 
+    background:#ccc;
+}
+</style>
+<div class="test_demo">
+  超酷的IT技术学习平台（我是省略号）
+</div>
+<style type="text/css">
+@font-face {
+    font-family: "MOOC Font";
+    src: url("http://www.imooc.com/Amaranth-BoldItalic.otf");
+}
+.demo {
+    width: 340px;
+    padding: 30px;    
+    color: #566F89;
+    background: #000;
+    font-size:58px;
+    font-family: "MOOC Font";
+}
+</style> 
+<div class="demo">IMOOC</div>
+X-Offset：表示阴影的水平偏移距离，其值为正值时阴影向右偏移，反之向左偏移；      
+
+Y-Offset：是指阴影的垂直偏移距离，如果其值是正值时，阴影向下偏移，反之向上偏移；
+
+Blur：是指阴影的模糊程度，其值不能是负值，如果值越大，阴影越模糊，反之阴影越清晰，如果不需要阴影模糊可以将Blur值设置为0；
+
+Color：是指阴影的颜色，其可以使用rgba色。<br/>
+<style type="text/css">
+.demo2 {
+    width: 340px;
+    padding: 30px;
+    font: bold 55px/100% "微软雅黑";
+    background: #C5DFF8;
+    text-shadow: 2px 2px 0 red;
+}
+</style> 
+<div class="demo2">IMOOC</div>
+8.多背景图<br/>
+background ： [background-color] | [background-image] | [background-position][/background-size] | [background-repeat] | [background-attachment] | [background-clip] | [background-origin],...<br/>
+用逗号隔开每组 background 的缩写值；
+如果有 size 值，需要紧跟 position 并且用 "/" 隔开；
+如果有多个背景图片，而其他属性只有一个（例如 background-repeat 只有一个），表明所有背景图片应用该属性值。
+background-color 只能设置一个。<br/>
+<style type="text/css">
+.demo4{
+    width: 300px;
+    height: 140px;
+    border: 1px solid #999;
+    
+    background-image: url(http://img.mukewang.com/54cf2365000140e600740095.jpg),
+                      url(http://img.mukewang.com/54cf238a0001728d00740095.jpg),
+                      url(http://img.mukewang.com/54cf23b60001fd9700740096.jpg);
+    background-position: left top, 100px 0, 200px 0;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    
+    margin:0 0 20px 0;
+}
+.task {
+    width: 300px;
+    height: 140px;
+    border: 1px solid #999;
+    
+    background:url(http://static.mukewang.com/static/img/logo_index.png) no-repeat, 
+               url(http://static.mukewang.com/static/img/logo_index.png) no-repeat;
+    background-position:left top,right bottom;
+    background-repeat:no-repeat,no-repeat;
+               
+}
+
+
+</style>
+<div class="demo4"></div>
+<div class="task"></div>
+background-origin ： border-box | padding-box | content-box;<br/>
+参数分别表示背景图片是从边框，还是内边距（默认值），或者是内容区域开始显示<br/>
+<style type="text/css">
+.wrap {
+    width:220px; 
+    border:20px dashed #000; 
+    padding:20px; 
+    font-weight:bold; 
+    color:#000; 
+    background:#ccc url(http://static.mukewang.com/static/img/logo_index.png) no-repeat; 
+    background-origin: content-box;
+    position: relative;
+}
+.wrap span { 
+    position: absolute; 
+    left:0; 
+    top:0;
+}
+.wrap .content {
+    height:80px; 
+    border:1px solid #333;
+}
+</style> 
+<div class="wrap">
+    <span>padding</span>
+    <div class="content">content</div>
+</div>
+background-clip ： border-box | padding-box | content-box | no-clip<br/>
+参数分别表示从边框、或内填充，或者内容区域向外裁剪背景。no-clip表示不裁切，和参数border-box显示同样的效果。backgroud-clip默认值为border-box。<br/>
+<style type="text/css">
+.wrap2 {
+    width:220px; 
+    border:20px dashed #000; 
+    padding:20px; 
+    font-weight:bold; 
+    color:#000; 
+    background:#ccc url(http://static.mukewang.com/static/img/logo_index.png) no-repeat; 
+    background-origin: border-box;
+    background-clip: padding-box;
+    position: relative;
+}
+.wrap2 span { 
+    position: absolute; 
+    left:0; 
+    top:0;
+}
+.wrap2 .content {
+    height:80px; 
+    border:1px solid #333;
+}
+</style>  
+<div class="wrap2">
+    <span>padding</span>
+    <div class="content">content</div>
+</div>
+background-size: auto | <长度值> | <百分比> | cover | contain<br/>
+1、auto：默认值，不改变背景图片的原始高度和宽度；
+
+2、<长度值>：成对出现如200px 50px，将背景图片宽高依次设置为前面两个值，当设置一个值时，将其作为图片宽度值来等比缩放；
+
+3、<百分比>：0％~100％之间的任何值，将背景图片宽高依次设置为所在元素宽高乘以前面百分比得出的数值，当设置一个值时同上；
+
+4、cover：顾名思义为覆盖，即将背景图片等比缩放以填满整个容器；
+
+5、contain：容纳，即将背景图片等比缩放至某一边紧贴容器边缘为止。<br/>
+<style type="text/css">
+.demo3 {
+    background: url(http://static.mukewang.com/static/img/logo_index.png) no-repeat;
+    width: 300px;
+    height: 140px;
+    border: 1px solid #999;
+    background-size:cover;
+}
+</style>  
+<div class="demo3"></div>
+9.边框背景图<br/>
+<style>
+#border_image {
+    width:450px;
+	height:100px;
+	line-height:100px;
+    margin:0 auto;
+	text-align:center;
+	font-size:30px;
+	border:15px solid #ccc;
+    border-image:url(http://img.mukewang.com/52e22a1c0001406e03040221.jpg) 80 90 stretch;
+	}
+</style>
+<div id="border_image">
+请为我镶嵌上漂亮的画框吧
+</div>
+10.变形处理（旋转、缩放、倾斜、移动、动画）<br/>
+旋转rotate()函数通过指定的角度参数使元素相对原点进行旋转。它主要在二维空间内进行操作，设置一个角度值，用来指定旋转的幅度。如果这个值为正值，元素相对原点中心顺时针旋转；如果这个值为负值，元素相对原点中心逆时针旋转。<br/>
+<style type="text/css">
+	.wrapper1 {
+  margin: 100px auto;
+  width: 300px;
+  height: 200px;
+  border: 2px dotted blue;
+}
+
+.wrapper1 div{
+  width: 300px;
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  background: green;
+  color: #fff;
+  -webkit-transform: rotate(-20deg);
+  -moz-transform: rotate(-20deg);
+  transform:rotate(-20deg);
+}
+.wrapper1 span {
+  display:block;
+ -webkit-transform: rotate(20deg);
+ -moz-transform: rotate(20deg);
+  transform:rotate(20deg);
+ }
+</style>
+<div class="wrapper1">
+ <div><span>我不想旋转(^_^)</span></div>
+</div><br/>
+扭曲skew()函数能够让元素倾斜显示。它可以将一个对象以其中心位置围绕着X轴和Y轴按照一定的角度倾斜。这与rotate()函数的旋转不同，rotate()函数只是旋转，而不会改变元素的形状。skew()函数不会旋转，而只会改变元素的形状。<br/>
+<style type="text/css">
+	.wrapper2 {
+  width: 300px;
+  height: 100px;
+  border: 2px dotted red;
+  margin: 30px auto;
+}
+
+.wrapper2 div {
+  width: 300px;
+  height: 100px;
+  line-height: 100px;
+  text-align: center;
+  color: #fff;
+  background: orange;
+  -webkit-transform: skew(-45deg);
+  -moz-transform: skew(-45deg);
+  transform:skew(-45deg);
+}
+
+.wrapper2 span {
+  display:block;
+  -webkit-transform: skew(45deg);
+  -moz-transform: skew(45deg);
+  transform:skew(45deg);
+}
+</style>
+<div class="wrapper2">
+  <div><span>我不想被扭曲(^_^)</span></div>
+</div>
+缩放 scale()函数 让元素根据中心原点对对象进行缩放。<br/>
+1、 scale(X,Y)使元素水平方向和垂直方向同时缩放（也就是X轴和Y轴同时缩放）<br/>
+注意：Y是一个可选参数，如果没有设置Y值，则表示X，Y两个方向的缩放倍数是一样的。<br/>
+2、scaleX(x)元素仅水平方向缩放（X轴缩放）<br/>
+3、scaleY(y)元素仅垂直方向缩放（Y轴缩放）<br/>
+scale()的取值默认的值为1，当值设置为0.01到0.99之间的任何值，作用使一个元素缩小；而任何大于或等于1.01的值，作用是让元素放大。<br/>
+<style type="text/css">
+  .wrapper3 {
+    width: 200px;
+    height: 200px;
+    border:2px dashed red;
+    margin: 100px auto;
+  }
+
+  .wrapper3 div {
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+    background: orange;
+    text-align: center;
+    color: #fff;
+  }
+
+  .wrapper3 div:hover {
+    opacity: .5;
+    -webkit-transform: scale(.8);
+    -moz-transform: scale(.8);
+    transform: scale(.8);
+  }
+</style>
+<div class="wrapper3">
+  <div>我将缩小0.8</div>
+</div>
+translate()函数可以将元素向指定的方向移动，类似于position中的relative。或以简单的理解为，使用translate()函数，可以把元素从原来的位置移动，而不影响在X、Y轴上的任何Web组件。<br/>
+1、translate(x,y)水平方向和垂直方向同时移动（也就是X轴和Y轴同时移动）<br/>
+2、translateX(x)仅水平方向移动（X轴移动）<br/>
+3、translateY(Y)仅垂直方向移动（Y轴移动）<br/>
+<style type="text/css">
+  .wrapper4 {
+    padding: 20px;
+    background:orange;
+    color:#fff;
+    position:absolute;
+    top:50%;
+    left:50%;
+    border-radius: 5px;
+    -webkit-transform:translate(-50%,-50%);
+    -moz-transform:translate(-50%,-50%);
+    transform:translate(-50%,-50%);
+  }
+</style>
+<div class="wrapper4">
+我不知道我的宽度和高是多少，我要实现水平垂直居中    
+</div>
+matrix() 是一个含六个值的(a,b,c,d,e,f)变换矩阵，用来指定一个2D变换，相当于直接应用一个[a b c d e f]变换矩阵。就是基于水平方向（X轴）和垂直方向（Y轴）重新定位元素,此属性值使用涉及到数学中的矩阵，我在这里只是简单的说一下CSS3中的transform有这么一个属性值，如果需要深入了解，需要对数学矩阵有一定的知识。<br/>
+<style>
+  .wrapper5 {
+    width: 300px;
+    height: 200px;
+    border: 2px dotted red;
+    margin: 40px auto;
+  }
+
+  .wrapper5 div {
+    width:300px;
+    height: 200px;
+    background: orange;
+    -webkit-transform: matrix(1,0,0,1,100,100);
+    transform: matrix(1,0,0,1,100,100);
+  }
+</style>
+<div class="wrapper5">
+  <div></div>
+</div>
+在没有重置transform-origin改变元素原点位置的情况下，CSS变形进行的旋转、位移、缩放，扭曲等操作都是以元素自己中心位置进行变形。但很多时候，我们可以通过transform-origin来对元素进行原点位置改变，使元素原点不在元素的中心位置，以达到需要的原点位置。<br/>
+transform-origin取值和元素设置背景中的background-position取值类似<br/>
+<style type="text/css">
+  .wrapper6 {
+    width: 400px;
+    height: 100px;
+    border: 2px dotted red;
+    margin: 20px auto; 
+    text-align: center;
+    line-height: 100px;
+  }
+  .wrapper6 div {
+    background: orange;
+    color: #fff;
+    -webkit-transform: skew(15deg);
+    -moz-transform: skew(15deg);
+    transform: skew(15deg);
+    -webkit-origin: top right;
+    -moz-origin: top right;
+    transform-origin: top right;
+  }
+</style>
+<div class="wrapper6">
+  <div>我修改原点之后在进行15度的扭曲</div>
+</div>
+transition-property用来指定过渡动画的CSS属性名称，而这个过渡属性只有具备一个中点值的属性（需要产生动画的属性）才能具备过渡效果<br/>
+<style type="text/css">
+  .wrapper7 {
+    width: 200px;
+    height: 200px;
+    background: red;
+    margin: 20px auto;
+    -webkit-transition-property: width;
+    transition-property: width;
+    -webkit-transition-duration:.5s;
+    transition-duration:.5s;
+    -webkit-transition-timing-function: ease-in;
+    transition-timing-function: ease-in;
+    -webkit-transition-delay: .18s;
+      transition-delay:.18s;
+  }
+.wrapper7:hover {
+  width: 400px;
+}
+</style>
+<div class="wrapper7"></div>
+transition-duration属性主要用来设置一个属性过渡到另一个属性所需的时间，也就是从旧属性过渡到新属性花费的时间长度，俗称持续时间。<br/>
+<style type="text/css">
+  .wrapper8 {
+  width: 300px;
+  height: 200px;
+  background-color: orange;
+  margin: 20px auto;
+  -webkit-transition-property: -webkit-border-radius;
+  transition-property: border-radius;
+  -webkit-transition-duration: .5s;
+  transition-duration: .5s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+  -webkit-transition-delay: .2s;
+  transition-delay: .2s;
+}
+.wrapper8:hover {
+  border-radius: 20px;
+}
+</style>
+<div class="wrapper8"></div>
+transition-timing-function属性指的是过渡的“缓动函数”。主要用来指定浏览器的过渡速度，以及过渡期间的操作进展情况<br/>先加速再减速，也就是运用ease-in-out函数<br/>
+<style type="text/css">
+  .wrapper9 {
+  width: 200px;
+  height: 200px;
+  background-color: orange;
+  margin: 20px auto;
+  border-radius: 100%;
+  -webkit-transition-property: -webkit-border-radius;
+  transition-property: border-radius;
+  -webkit-transition-duration: 1s;
+  transition-duration: 1s;
+  -webkit-transition-timing-function:linear;
+  ;
+  transition-timing-function:linear;
+  -webkit-transition-delay: .2s;
+  transition-delay: .2s;
+}
+.wrapper9:hover {
+  border-radius: 0px;
+}
+</style>
+<div class="wrapper9"></div>
+transition-delay属性和transition-duration属性极其类似，不同的是transition-duration是用来设置过渡动画的持续时间，而transition-delay主要用来指定一个动画开始执行的时间，也就是说当改变元素属性值后多长时间开始执行。<br/>
+有时我们想改变两个或者多个css属性的transition效果时，只要把几个transition的声明串在一起，用逗号（“，”）隔开，然后各自可以有各自不同的延续时间和其时间的速率变换方式。但需要值得注意的一点：第一个时间的值为 transition-duration，第二个为transition-delay。<br/>
+例如：a{ transition: background 0.8s ease-in 0.3,color 0.6s ease-out 0.3;}<br/>
+<style>
+  .wrapper10 {
+  width: 400px;
+  height: 200px;
+  margin: 20px auto;
+  border: 2px dotted red;
+  position:relative;
+}
+
+.wrapper10 div {
+  padding: 15px 20px;
+  color: #fff;
+  background-color: orange;
+  position: absolute;
+  top: 50%;
+  left:50%;
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  -webkit-transition: all .5s ease-in .2s;
+  transition: all .5s ease-in .2s;
+}
+
+.wrapper10 div:hover {
+  background-color: red;
+  border-radius: 10px;
+}
+</style>
+<div class="wrapper10">
+  <div>鼠标放到我的身上来</div>
+</div>
+Keyframes被称为关键帧，其类似于Flash中的关键帧。在CSS3中其主要以“@keyframes”开头，后面紧跟着是动画名称加上一对花括号“{…}”，括号中就是一些不同时间段样式规则<br/>
+<style type="text/css">
+  @keyframes changecolor{
+  0%{
+    background: red;
+  }
+  20%{
+    background:blue;
+  }
+  40%{
+    background:orange;
+  }
+  60%{
+    background:green;
+  }
+  80%{
+    background:yellow;
+  }
+  100%{
+    background: red;
+  }
+}
+.wrapper11 {
+  width: 300px;
+  height: 200px;
+  background: red;
+  color:#fff;
+  margin: 20px auto;
+}
+.wrapper11:hover {
+  animation: changecolor 5s ease-out .2s;
+}
+</style>
+<div class="wrapper11">鼠标放在我身上</div>
+animation-name属性主要是用来调用 @keyframes 定义好的动画。需要特别注意: animation-name 调用的动画名需要和“@keyframes”定义的动画名称完全一致（区分大小写），如果不一致将不具有任何动画效果。<br/>
+1、IDENT是由 @keyframes 创建的动画名，上面已经讲过了（animation-name 调用的动画名需要和“@keyframes”定义的动画名称完全一致）；<br/>
+
+2、none为默认值，当值为 none 时，将没有任何动画效果,这可以用于覆盖任何动画。<br/>
+<style type="text/css">
+  @keyframes around{
+  0% {
+    transform: translateX(0);
+  }
+  25%{
+    transform: translateX(180px);
+  }
+  50%{
+     transform: translate(180px, 180px); 
+  }
+  75%{
+    transform:translate(0,180px);
+  }
+  100%{
+    transform: translateY(0);
+  }
+}
+.wrapper12 {
+  width: 200px;
+  height: 200px;
+  border: 1px solid red;
+  margin: 20px auto;
+}
+.wrapper12 span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: orange;
+  border-radius: 100%;
+  animation-name:around;
+  animation-duration: 10s;
+  animation-timing-function: ease;
+  animation-delay: 1s;
+  animation-iteration-count:infinite;
+}
+</style>
+<div class="wrapper12"><span></span></div>
+animation-duration主要用来设置CSS3动画播放时间，其使用方法和transition-duration类似，是用来指定元素播放动画所持续的时间长，也就是完成从0%到100%一次动画所需时间。单位：S秒<br/>
+取值<time>为数值，单位为秒，其默认值为“0”，这意味着动画周期为“0”，也就是没有动画效果（如果值为负值会被视为“0”）。<br/>
+<style type="text/css">
+/*不能以@开头*/
+  @keyframes changeColor {
+  from {
+    background: red;
+  }
+  to {
+    background:green;
+  }
+}
+.wrapper13 {
+  width: 200px;
+  height: 200px;
+  background: red;
+  text-align:center;
+  margin: 20px auto;
+  line-height: 200px;
+  color: #fff;
+}
+.wrapper13:hover {
+  animation-name: changeColor;
+  animation-duration: 5s;
+  animation-timing-function: ease-out;
+  animation-delay: .1s;
+  background:green;
+}
+</style>
+<div class="wrapper13">Hover Me</div>
+animation-timing-function属性主要用来设置动画播放方式。主要让元素根据时间的推进来改变属性值的变换速率，简单点说就是动画的播放方式。<br/>
+<style type="text/css">
+  /*不能以@开头*/
+@keyframes move {
+  0%{
+    transform: translate(0);
+  }
+  15%{
+    transform: translate(100px,180px);
+  }
+  30%{
+    transform: translate(150px,0);
+  }
+  45%{
+    transform: translate(250px,180px);
+  }
+  60%{
+    transform:translate(300px,0);
+  }
+  75%{
+    transform: translate(450px,180px);
+  }
+  100%{
+    transfrom: translate(480px,0);
+  }
+}
+
+.wrapper14 {
+  width: 500px;
+  height: 200px;
+  border: 1px solid red;
+  margin: 20px auto;
+}
+.wrapper14 span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background: green;
+  border-radius: 100%;
+  animation-name:move;
+  animation-duration: 10s;
+  animation-timing-function:ease;
+  animation-delay:.1s;
+  animation-iteration-count:infinite;
+  animation-direction:alternate;
+  animation-play-state:paused;
+}
+.wrapper14:hover span {
+  animation-play-state:running;
+}
+</style>
+<div class="wrapper14"><span></span></div>
+animation-delay属性用来定义动画开始播放的时间，用来触发动画播放的时间点。和transition-delay属性一样，用于定义在浏览器开始执行动画之前等待的时间。<br/>
+animation-iteration-count属性主要用来定义动画的播放次数。<br/>
+1、其值通常为整数，但也可以使用带有小数的数字，其默认值为1，这意味着动画将从开始到结束只播放一次。<br/>
+2、如果取值为infinite，动画将会无限次的播放。<br/>
+animation-fill-mode属性定义在动画开始之前和结束之后发生的操作。主要具有四个属性值：none、forwards、backwords和both。其四个属性值对应效果如下：<br/>
+none
+默认值，表示动画将按预期进行和结束，在动画完成其最后一帧时，动画会反转到初始帧处<br/>
+
+forwards
+表示动画在结束后继续应用最后的关键帧的位置<br/>
+
+backwards
+会在向元素应用动画样式时迅速应用动画的初始帧<br/>
+
+both
+元素动画同时具有forwards和backwards效果<br/>
+在默认情况之下，动画不会影响它的关键帧之外的属性，使用animation-fill-mode属性可以修改动画的默认行为。简单的说就是告诉动画在第一关键帧上等待动画开始，或者在动画结束时停在最后一个关键帧上而不回到动画的第一帧上。或者同时具有这两个效果。<br/>
+<style type="text/css">
+  @keyframes redToBlue{
+  from{
+    background: red;
+  }
+  20%{
+      background:green;
+  }
+  40%{
+      background:lime;
+  }
+  60%{
+      background:yellow;
+  }
+  to{
+    background:blue;
+  }
+} 
+
+.wrapper15 {
+  width: 200px;
+  height: 200px;
+  background: red;
+  margin: 20px auto;
+  animation-name:redToBlue;
+  animation-duration: 20s;
+  animation-timing-function: ease;
+  animation-delay: 1s;
+  animation-fill-mode: both; 
+}
+</style>
+<div class="wrapper15"></div>
+11.多栏布局<br/>
+多列布局columns属性参数主要就两个属性参数：列宽和列数。<br/>
+<style>
+  .columns {
+  width: 500px;
+  padding: 5px;
+  border: 1px solid green;
+  margin: 20px auto; 
+  -webkit-columns: 150px 3;
+  -moz-columns: 150px 3;
+  -o-columns:150px 3;
+  -ms-columns: 150px 3;
+  columns: 150px 3;
+}
+</style>
+<div class="columns">
+  <h2>我要分列显示</h2>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+</div>
+column-count属性主要用来给元素指定想要的列数和允许的最大列数。<br/>
+<style type="text/css">
+  .columns2 {
+  padding: 5px;
+  border: 1px solid green;
+  width: 600px;
+  margin: 20px auto;
+  
+  -webkit-column-count:2;
+  -moz-column-count:2;
+  -o-column-count:2;
+  -ms-column-count:2;
+  column-count:2;
+}
+</style>
+<div class="columns2">
+  <h2>我要分列显示</h2>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+</div>
+column-gap主要用来设置列与列之间的间距<br/>
+<style type="text/css">
+  .columns3 {
+  padding: 5px;
+  border: 1px solid green;
+  width: 900px;
+  margin: 20px auto;
+  
+  -webkit-column-count:3;
+  -moz-column-count:3;
+  -o-column-count:3;
+  -ms-column-count:3;
+  column-count:3;
+  
+  -webkit-column-gap:3em;
+  -moz-column-gap:3em;
+  -o-column-gap:3em;
+  -ms-colume-gap:3em;
+  column-gap:3em;
+}
+</style>
+<div class="columns3">
+  <h2>我要分列显示</h2>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+</div>
+column-rule主要是用来定义列与列之间的边框宽度、边框样式和边框颜色。简单点说，就有点类似于常用的border属性。但column-rule是不占用任何空间位置的，在列与列之间改变其宽度不会改变任何列的位置。<br/>
+<style type="text/css">
+  .columns4 {
+  padding: 5px;
+  border: 1px solid green;
+  width: 900px;
+  margin: 20px auto;
+  
+  -webkit-column-count:3;
+  -moz-column-count:3;
+  -o-column-count:3;
+  -ms-column-count:3;
+  column-count:3;
+  
+  -webkit-column-gap: 2em;
+  -moz-column-gap: 2em;
+  -o-column-gap: 2em;
+  -ms-column-gap: 2em;
+  column-gap: 2em;
+  
+  -webkit-column-rule:3px solid #ccc;
+  -moz-column-rule:3px solid #ccc;
+  -o-column-rule:3px solid #ccc;
+  -ms-column-rule:3px solid #ccc;
+  column-rule:3px solid #ccc;
+}
+</style>
+<div class="columns4">
+  <h2>我要分列显示</h2>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+</div>
+column-span主要用来定义一个分列元素中的子元素能跨列多少。column-width、column-count等属性能让一元素分成多列，不管里面元素如何排放顺序，他们都是从左向右的放置内容，但有时我们需要基中一段内容或一个标题不进行分列，也就是横跨所有列，此时column-span就可以轻松实现<br/>
+<style type="text/css">
+  .columns5 {
+  padding: 5px;
+  border: 1px solid green;
+  width: 900px;
+  margin: 20px auto;
+  
+  -webkit-column-count:3;
+  -moz-column-count:3;
+  -o-column-count:3;
+  -ms-column-count:3;
+  column-count:3;
+  
+  -webkit-column-gap: 2em;
+  -moz-column-gap: 2em;
+  -o-column-gap: 2em;
+  -ms-column-gap: 2em;
+  column-gap: 2em;
+  
+  -webkit-column-rule: 3px gray solid;
+  -moz-column-rule: 3px gray solid;
+  -o-column-rule: 3px gray solid;
+  -ms-column-rule: 3px gray solid;
+  column-rule: 3px gray solid;
+}
+.columns5 h2{
+  background: green;
+  padding: 10px;
+  color: #fff;
+}
+
+.columns5 h2,
+.columns5 p:nth-child(2n){
+  -webkit-column-span:all;
+  -moz-column-span:all;
+  -o-column-span:all;
+  -ms-column-sapn:all;
+  column-span:all;
+}
+</style>
+<div class="columns5">
+  <h2>我要分列显示</h2>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+  <p>为了能在Web页面中方便实现类似报纸、杂志那种多列排版的布局，W3C特意给CSS3增加了一个多列布局模块（CSS Multi Column Layout Module）。它主要应用在文本的多列布局方面。对于文本的多列布局，我想大家并不陌生，因为报纸和杂志上我们随处可见，这种布局在报纸和杂志上都使用了几十年了，但需要在Web页面上实现文本的多列布局，正如下图所示。</p>
+</div>
+在CSS3中新增加了box-sizing属性，能够事先定义盒模型的尺寸解析方式<br/>
+content-box:width/height = content width / height<br/>
+border-box:元素的宽度或高度等于元素内容的宽度或高度。这里的内容宽度或高度包含了元素的border、padding、内容的宽度或高度（此处的内容宽度或高度＝盒子的宽度或高度—边框—内距）。
+width/height = border + padding + content width / height<br/>
+<style type="text/css">
+  h1 {
+  font-size: 20px;
+  margin: 0;
+  color: #fff;
+}
+#page:after,
+#page:before{
+  content:"";
+  display: table;
+}
+#page:after{
+  clear:both;
+  overflow: hidden;
+}
+
+#page {
+  margin-bottom: 20px;
+}
+#header {
+  width: 100%;
+  background: green;
+  margin-bottom: 10px;
+  padding: 20px;
+}
+.main {
+  width: 60%;
+  padding: 20px;
+  background: orange;
+  float: left;
+}
+.sidebar {
+  width: 38%;
+  float: right;
+  background: #f36;
+  padding: 20px;
+}
+
+#footer {
+  width: 100%;
+  background: #36f;
+  padding: 20px;
+  clear:both;
+}
+
+#header,
+.main,
+.sidebar,
+#footer {
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -o-box-sizing:border-box;
+  -ms-box-sizing:border-box;
+  box-sizing:border-box;
+}
+</style>
+<div id="header"><h1>Header Content</h1></div>
+<div id="page">
+  <div class="main"><h1>Main Content</h1></div>
+  <div class="sidebar"><h1>Sidebar Content</h1></div>
+</div>
+<div id="footer"><h1>Footer Content</h1></div>  
+CSS3引入了一种新的布局模式——Flexbox布局，即伸缩布局盒模型（Flexible Box），用来提供一个更加有效的方式制定、调整和分布一个容器里项目布局，即使它们的大小是未知或者动态的，这里简称为Flex。<br/>
+1.创建一个flex容器
+.flexcontainer{ display: -webkit-flex; display: flex; }
+2.Flex项目显示,默认值是row。
+.flexcontainer{ display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; }
+4.Flex项目移动到顶部
+.flexcontainer{ -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: flex-start; justify-content: flex-start; }
+.flexcontainer{ display: -webkit-flex; display: flex; -webkit-flex-direction: row; flex-direction: row; -webkit-align-items: flex-start; align-items: flex-start; }
+5.Flex项目移到左边
+.flexcontainer{ display: -webkit-flex; display: flex; -webkit-flex-direction: row; flex-direction: row; -webkit-justify-content: flex-start; justify-content: flex-start; }
+.flexcontainer{ display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-align-items: flex-start; align-items: flex-start; }
+6.Flex项目移动右边
+.flexcontainer{ display: -webkit-flex; display: flex; -webkit-flex-direction: row; flex-direction: row; -webkit-justify-content: flex-end; justify-content: flex-end; }
+.flexcontainer{ display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-align-items: flex-end; align-items: flex-end; }
+7.水平垂直居中
+.flexcontainer{ display: -webkit-flex; display: flex; -webkit-flex-direction: row; flex-direction: row; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; }
+.flexcontainer{ display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; }
+8.Flex项目实现自动伸缩
+您可以定义一个flex项目，如何相对于flex容器实现自动的伸缩。需要给每个flex项目设置flex属性设置需要伸缩的值。
+.bigitem{ -webkit-flex:200; flex:200; }  .smallitem{ -webkit-flex:100; flex:100; }
+<style type="text/css">
+  .flex,.flex img{
+  margin: 0;
+  padding:0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.flex{
+  height: 100%;
+}
+.flex {
+  display:flex;
+  align-items: center;
+  justify-content:center;
+}
+</style>
+<div class="flex">
+<img src="http://img.mukewang.com/5365d7b10001e8d506350529.jpg" alt="" />
+</div>
+12.媒体查询<br/>
+在实际中媒体类型有近十种之多，实际之中常用的也就那么几种，不过媒体类型的引用方法也有多种，常见的有：link标签、@import和CSS3新增的@media几种
+link方法
+<!-- <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="print.css" media="print" /> -->
+<!-- @import方法
+@importurl(reset.css) screen;   
+@importurl(print.css) print;
+<head>
+<style type="text/css">
+    @importurl(style.css) all;
+</style>
+</head> -->
+@media方法
+<!-- @media screen {
+   选择器{/*你的样式代码写在这里…*/}
+} -->
+<!-- <head>
+<style type="text/css">
+    @media screen{
+    选择器{/*你的样式代码写在这里…*/}
+}
+</style> -->
+1. 最大宽度max-width
+<!-- @media screen and (max-width:480px){
+ .ads {
+   display:none;
+  }
+} -->
+2.最小宽度min-width
+<!-- @media screen and (min-width:900px){
+.wrapper{width: 980px;}
+} -->
+3.多个媒体特性使用
+<!-- @media screen and (min-width:600px) and (max-width:900px){
+  body {background-color:#f5f5f5;}
+} -->
+4.设备屏幕的输出宽度Device Width
+<!-- <link rel="stylesheet" media="screen and (max-device-width:480px)" href="iphone.css" /> -->
+5. not关键词
+<!-- @media not print and (max-width: 1200px){样式代码}
+样式代码将被使用在除打印设备和设备宽度小于1200px下所有设备中 -->
+6.only关键词
+<!-- 在Media Query中如果没有明确指定Media Type，那么其默认为all
+<linkrel="stylesheet" media="only screen and (max-device-width:240px)" href="android240.css" />
+另外在样式中，还可以使用多条语句来将同一个样式应用于不同的媒体类型和媒体特性中
+<linkrel="stylesheet" type="text/css" href="style.css" media="handheld and (max-width:480px), screen and (min-width:960px)" /> -->
+Responsive设计:
+1.流体网格
+2.弹性图片
+3.媒体查询
+4.屏幕分辨率
+5.主要断点
+Responsive布局技巧:
+第一， 尽量少用无关紧要的div；
+第二，不要使用内联元素（inline）；
+第三，尽量少用JS或flash；
+第四，丢弃没用的绝对定位和浮动样式；
+第五，摒弃任何冗余结构和不使用100%设置。
+第一，使用HTML5 Doctype和相关指南；
+第二，重置好你的样式（reset.css）；
+第三，一个简单的有语义的核心布局；
+第四，给重要的网页元素使用简单的技巧，比如导航菜单之类元素。
+一个快速测试的方法。你首先禁掉你页面中所有的样式（以及与样式相关的信息），在浏览器中打开，如果你的内容排列有序，方便阅读，那么你的这个结构不会差到哪里去
+Responsive设计——meta标签:
+<!-- <meta name=”viewport” content=”width=device-width,initial-scale=1.0” /> -->
+另外一点，由于Responsive设计是结合CSS3的Media Queries属性，才能尽显Responsive设计风格，但大家都清楚，在IE6-8中完全是不支持CSS3 Media。下面我们一起来看看CSS3 Meida Queries在标准设备上的运用，大家可以把这些样式加到你的样式文件中，或者单独创建一个名为“responsive.css”文件，并在相应的条件中写上你的样式，让他适合你的设计需求
+<!-- media-queries.js(http://code.google.com/p/css3-mediaqueries-js/)      
+
+ respond.js(https://github.com/scottjehl/Respond)
+
+ <!—[if lt IE9]>
+      <scriptsrc=http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js></script>
+ ​<![endif]> -->
+ Responsive设计——不同设备的分辨率设置:
+ 1.1024px显屏
+<!-- @media screen and (max-width : 1024px) {                    
+/* 样式写在这里 */          
+}  --> 
+2.800px显屏
+<!-- @media screen and (max-width : 800px) {              
+/* 样式写在这里 */          
+} -->     
+3.640px显屏
+<!-- @media screen and (max-width : 640px) {              
+/* 样式写在这*/            
+}  -->    
+4.iPad横板显屏
+<!-- @media screen and (max-device-width: 1024px) and (orientation: landscape) {              
+/* 样式写在这 */            
+}  --> 
+5.iPad竖板显屏
+<!-- @media screen and (max-device-width: 768px) and (orientation: portrait) {         
+/* 样式写在这 */            
+}   -->
+6.iPhone 和 Smartphones
+<!-- @media screen and (min-device-width: 320px) and (min-device-width: 480px) {              
+/* 样式写在这 */            
+}  -->   
+twitter的Bootstrap第二版本中就加上了这方面的运用:
+<!-- @media (max-width: 480px) { ... }              
+@media (max-width: 768px) { ... }              
+@media (min-width: 768px) and (max-width: 980px) { ... }      
+@media (min-width: 1200px) { .. } -->
+自由缩放属性resize:
+none
+用户不能拖动元素修改尺寸大小。
+both
+用户可以拖动元素，同时修改元素的宽度和高度
+horizontal
+用户可以拖动元素，仅可以修改元素的宽度，但不能修改元素的高度。
+vertical
+用户可以拖动元素，仅可以修改元素的高度，但不能修改元素的宽度。
+inherit
+继承父元素的resize属性值。
+CSS3外轮廓属性outline:
+outline-color
+定义轮廓线的颜色，属性值为CSS中定义的颜色值。在实际应用中，可以将此参数省略，省略时此参数的默认值为黑色。
+outline-style
+定义轮廓线的样式，属性为CSS中定义线的样式。在实际应用中，可以将此参数省略，省略时此参数的默认值为none，省略后不对该轮廓线进行任何绘制。
+outline-width
+定义轮廓线的宽度，属性值可以为一个宽度值。在实际应用中，可以将此参数省略，省略时此参数的默认值为medium，表示绘制中等宽度的轮廓线。
+outline-offset
+定义轮廓边框的偏移位置的数值，此值可以取负数值。当此参数的值为正数值，表示轮廓边框向外偏离多少个像素；当此参数的值为负数值，表示轮廓边框向内偏移多少个像素。
+inherit
+元素继承父元素的outline效果。
+CSS生成内容:
+CSS3进代之后我们可以通过CSS3的伪类“:before”，“:after”和CSS3的伪元素“::before”、“::after”来实现，其关键是依靠CSS3中的“content”属性来实现。不过这个属性对于img和input元素不起作用。
+none
+不生成任何内容
+attr
+插入标签属性值
+url
+使用指定的绝对或相对地址插入一个外部资源（图像，声频，视频或浏览器支持的其他任何资源）
+string
+插入字符串
+h1:before {
+  content:"我是被插进来的";
+  color: red;
+}
+清除浮动的方法叫“clearfix”:
+.clearfix:before,
+
+.clearfix:after {
+
+       content:””;
+
+       display:table;
+
+}
+
+.clearfix:after {
+
+       clear:both;
+
+       overflow:hidden;
+
+}
+</head>
+</body>
+</html>
